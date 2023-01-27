@@ -6,21 +6,16 @@
 /*   By: jchu <jchu@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 09:09:33 by jchu              #+#    #+#             */
-/*   Updated: 2023/01/13 11:32:05 by jchu             ###   ########.fr       */
+/*   Updated: 2023/01/27 12:13:48 by jchu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "printf.h"
+#include "ft_printf.h"
 
-void	ft_putchar(int c)
+int	ft_putchar(int c)
 {
 	write (1, &c, 1);
-}
-
-void	ft_putstr(const char *str)
-{
-	while (*str)
-		ft_putchar(*str++);
+	return (1);
 }
 
 size_t	ft_strlen(const char *str)

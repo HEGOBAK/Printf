@@ -1,6 +1,6 @@
 NAME		= libftprintf.a
 
-SRCS		= output_funcs.c \printf.c \putbase.c \utils.c \output_funcs2.c
+SRCS		= output_funcs.c \printf.c \putbase.c \utils.c
 
 OBJS		= $(SRCS:%.c=%.o)
 

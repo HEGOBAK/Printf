@@ -5,31 +5,50 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jchu <jchu@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/13 10:27:57 by jchu              #+#    #+#             */
-/*   Updated: 2023/01/13 12:13:45 by jchu             ###   ########.fr       */
+/*   Created: 2023/01/13 12:12:54 by jchu              #+#    #+#             */
+/*   Updated: 2023/01/27 17:01:17 by jchu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "printf.h"
+#include "ft_printf.h"
 
-int	output_ptr(va_list args)
+int	output_str(char *str)
 {
-	void	*n;
+	int	t;
 
-	ft_putchar('0');
-	ft_putchar('x');
-	n = va_arg(args, void *);
-	return (ft_unsigned_putbase((uint64_t)n, 16, 2));
+	t = 0;
+	if (str == NULL)
+		t = output_str("(null)");
+	else
+	{
+		while (*str)
+		{
+			t += ft_putchar(*str);
+			str++;
+		}
+	}
+	return (t);
 }
 
-int	output_unsigned(va_list args)
+int	output_num(int nbr, int base)
 {
-	int	n;
+	return (ft_putbase(nbr, base));
+}
 
-	n = va_arg(args, int);
-	if (n < 0)
-		return (ft_putbase(4294967295 + n + 1, 10));
+int	output_ptr(uint64_t ptr)
+{
+	int		t;
+
+	t = ft_putchar('0');
+	t += ft_putchar('x');
+	return (ft_unsigned_putbase(ptr, 16, t));
+}
+
+int	output_unsigned(unsigned int nbr)
+{
+	if (nbr < 0)
+		return (ft_putbase(4294967295 + nbr + 1, 10));
 	else
-		return (ft_putbase(n, 10));
+		return (ft_putbase(nbr, 10));
 	return (0);
 }

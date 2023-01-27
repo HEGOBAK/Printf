@@ -6,66 +6,54 @@
 /*   By: jchu <jchu@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 09:03:52 by jchu              #+#    #+#             */
-/*   Updated: 2023/01/13 13:15:36 by jchu             ###   ########.fr       */
+/*   Updated: 2023/01/27 16:43:55 by jchu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "printf.h"
+#include "ft_printf.h"
 
-int	due_to_norm(const char *str, va_list args)
+int	due_to_norm(const char str, va_list *args)
 {
-	if (*str == 'c' || *str == '%')
-		return (output_char(args));
-	else if (*str == 's')
-		return (output_str(args));
-	else if (*str == 'd' || *str == 'i')
-		return (output_num(args, 10));
-	else if (*str == 'u')
-		return (output_unsigned(args));
-	else if (*str == 'x' || *str == 'X')
-		return (output_hex(args, 16, *str));
-	else if (*str == 'p')
-		return (output_ptr(args));
+	if (str == 'c')
+		return (ft_putchar(va_arg(*args, int)));
+	if (str == '%')
+		return (ft_putchar('%'));
+	else if (str == 's')
+		return (output_str(va_arg(*args, char *)));
+	else if (str == 'd' || str == 'i')
+		return (output_num(va_arg(*args, int), 10));
+	else if (str == 'u')
+		return (output_unsigned(va_arg(*args, unsigned int)));
+	else if (str == 'x' || str == 'X')
+		return (ft_caphex(va_arg(*args, unsigned int), str));
+	else if (str == 'p')
+		return (output_ptr(va_arg(*args, unsigned long long)));
 	return (0);
-}
-
-int	ft_print(const char *str, va_list args)
-{
-	int	count;
-	int	state;
-
-	count = 0;
-	state = 0;
-	while (*str)
-	{
-		if (state == 0)
-		{
-			if (*str == '%')
-				state = 1;
-			else
-			{
-				ft_putchar(*str);
-				count++;
-			}
-		}
-		else if (state == 1)
-		{
-			count += due_to_norm(str, args);
-			state = 0;
-		}
-		str++;
-	}
-	return (count);
 }
 
 int	ft_printf(const char *str, ...)
 {
-	int		count;
+	int		i;
 	va_list	args;
+	int		print_length;
 
-	count = 0;
+	i = 0;
+	print_length = 0;
 	va_start(args, str);
-	count += ft_print(str, args);
+	while (str[i])
+	{
+		if (str[i] == '%')
+		{
+			print_length += due_to_norm(str[i + 1], &args);
+			i++;
+		}
+		else
+		{
+			ft_putchar(str[i]);
+			print_length++;
+		}
+		i++;
+	}
 	va_end(args);
-	return (count);
+	return (print_length);
 }

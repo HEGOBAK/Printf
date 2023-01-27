@@ -6,11 +6,11 @@
 /*   By: jchu <jchu@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 09:16:07 by jchu              #+#    #+#             */
-/*   Updated: 2023/01/13 13:23:21 by jchu             ###   ########.fr       */
+/*   Updated: 2023/01/27 17:19:07 by jchu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "printf.h"
+#include "ft_printf.h"
 
 void	tqs_to_norm_low(char *str, uint64_t number, int base, int *a)
 {
@@ -54,24 +54,20 @@ int	ft_unsigned_putbase(uint64_t number, int base, int n)
 	int		idx;
 	char	buf[65];
 
-	count = n;
 	idx = 0;
+	count = n;
 	while (idx < 65)
 		buf[idx++] = 0;
 	if (number == 0)
-	{
-		ft_putchar('0');
-		return (1);
-	}
+		return (ft_putchar('0') + count);
 	tqs_to_norm_low(buf, number, base, &idx);
-	count += idx;
 	idx--;
 	while (idx > -1)
-		ft_putchar(buf[idx--]);
+		count += ft_putchar(buf[idx--]);
 	return (count);
 }
 
-int	ft_caphex(uint64_t number, int base)
+int	ft_caphex(uint64_t number, const char c)
 {
 	int		count;
 	int		idx;
@@ -82,15 +78,14 @@ int	ft_caphex(uint64_t number, int base)
 	while (idx < 65)
 		buf[idx++] = 0;
 	if (number == 0)
-	{
-		ft_putchar('0');
-		return (1);
-	}
-	tqs_to_norm_up(buf, number, base, &idx);
-	count = idx;
+		return (ft_putchar('0'));
+	if (c == 'x')
+		tqs_to_norm_low(buf, number, 16, &idx);
+	else
+		tqs_to_norm_up(buf, number, 16, &idx);
 	idx--;
 	while (idx > -1)
-		ft_putchar(buf[idx--]);
+		count += ft_putchar(buf[idx--]);
 	return (count);
 }
 
